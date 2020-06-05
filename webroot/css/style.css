@@ -323,6 +323,10 @@ pre {
 }
 
 .top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) a:not(.button) {
+    background: #ffffff;
+}
+
+.top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) > a:not(.button) {
     background: #116d76;
 }
 

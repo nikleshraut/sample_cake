@@ -29,6 +29,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
     <?= $this->Html->css('bootstrap.min.css') ?>
+    <?= $this->Html->script('jquery.min.js') ?>
+    <?= $this->Html->script('bootstrap.bundle.min.js') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -38,13 +40,59 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1>
+                    <a href="/">Home</a>
+                </h1>
             </li>
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
+                <li>
+                    <?php
+                        echo $this->Html->link(
+                            'Tags',
+                            ['controller' => 'Tags', 'action' => 'index']
+                        );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                        echo $this->Html->link(
+                            'Articles',
+                            ['controller' => 'Articles', 'action' => 'index']
+                        );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                        echo $this->Html->link(
+                            'Logout',
+                            ['controller' => 'Users', 'action' => 'logout'],
+                            ['confirm' => 'Are you sure you wish to logout ?']
+                        );
+                    ?>
+                </li>
+                <li>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      User
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <?php
+                            echo $this->Html->link(
+                                'Profile',
+                                ['controller' => 'Users', 'action' => 'view',1],
+                                ['class' => 'dropdown-item']
+                            );
+                        ?>
+                        <?php
+                            echo $this->Html->link(
+                                'All Users',
+                                ['controller' => 'Users', 'action' => 'index'],
+                                ['class' => 'dropdown-item']
+                            );
+                        ?>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
