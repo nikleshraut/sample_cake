@@ -16,6 +16,7 @@ class UsersController extends AppController
     public function initialize()
     {
         parent::initialize();
+        $this->Auth->deny();
         $this->Auth->allow(['logout','add']);
     }
 
@@ -118,14 +119,20 @@ class UsersController extends AppController
 
     public function login()
     {
-        if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
+        $user = $this->Auth->user();
+        if(!empty($user)){
+            $this->redirect(array("controller" => "Articles", "action" => "index"));
+        }else{
+            if ($this->request->is('post')) {
+                $user = $this->Auth->identify();
+                if ($user) {
+                    $this->Auth->setUser($user);
+                    return $this->redirect($this->Auth->redirectUrl());
+                }
+                $this->Flash->error('Your username or password is incorrect.');
             }
-            $this->Flash->error('Your username or password is incorrect.');
         }
+
     }
 
 }

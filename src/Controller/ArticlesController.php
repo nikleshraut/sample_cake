@@ -9,10 +9,11 @@ class ArticlesController extends AppController
 	public function initialize()
     {
         parent::initialize();
+        $this->Auth->deny();
+        $this->Auth->allow(['tags']);
 
         $this->loadComponent('Paginator');
         $this->loadComponent('Flash');
-        $this->Auth->allow(['tags']);
     }
 
     public function isAuthorized($user)
