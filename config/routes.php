@@ -51,7 +51,7 @@ Router::scope('/', function (RouteBuilder $routes) {
         'httpOnly' => true
     ]));
     $routes->applyMiddleware('csrf');
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $routes->connect('/', ['controller' => 'Users', 'action' => 'login', 'login']);
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
     $routes->fallbacks(DashedRoute::class);
 });
