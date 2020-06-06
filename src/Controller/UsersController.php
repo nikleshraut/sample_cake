@@ -4,7 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 
-/*class ReCaptchaResponse
+class ReCaptchaResponse
 {
     public $success;
     public $errorCodes;
@@ -18,7 +18,7 @@ class ReCaptcha
     private $_secret;
     private static $_version = "php_1.0";
 
-    function ReCaptcha($secret)
+    public function __construct($secret)
     {
         if ($secret == null || $secret == "") {
             die("To use reCAPTCHA you must get an API key from <a href='"
@@ -74,7 +74,7 @@ class ReCaptcha
 
         return $recaptchaResponse;
     }
-}*/
+}
 
 
 
@@ -244,21 +244,22 @@ class UsersController extends AppController
                 //dd($_SERVER["REMOTE_ADDR"]);
                 $data =  $this->request->getData();
 
-                /*$secret  = "6LeI8AAVAAAAAFS4zMrAZGlBtfmrUbznTvFcqTdC";
-                $reCaptcha = new ReCaptcha($secret);*/
+                $secret  = "6LeI8AAVAAAAAFS4zMrAZGlBtfmrUbznTvFcqTdC";
+                $reCaptcha = new ReCaptcha($secret);
                 // Was there a reCAPTCHA response?
                 if (!empty($data["g-recaptcha-response"])) {
-                    /*$resp = $reCaptcha->verifyResponse(
+                    $resp = $reCaptcha->verifyResponse(
                         $_SERVER["REMOTE_ADDR"],
                         $data["g-recaptcha-response"]
                     );
                     if ($resp != null && $resp->success) {
-                        echo "Captcha Verified !";exit;
-                    }*/
-                    $user = $this->Auth->identify();
-                    if ($user) {
-                        $this->Auth->setUser($user);
-                        return $this->redirect($this->Auth->redirectUrl());
+                        $user = $this->Auth->identify();
+                        if ($user) {
+                            $this->Auth->setUser($user);
+                            return $this->redirect($this->Auth->redirectUrl());
+                        }
+                    }else{
+                        $this->Flash->error('Wrong Captcha Settings.');    
                     }
                 }else{
                     $this->Flash->error('Captcha is incorrect.');
