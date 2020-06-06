@@ -16,12 +16,13 @@
     <div class="containter border p-4">
         <div class="row">
             <div class="col-sm-6 offset-sm-3">
-                <?= $this->Form->create($user) ?>
+                <?= $this->Form->create($user,['type'=>'file']) ?>
                 <fieldset>
                     <legend><?= __('Add User') ?></legend>
                     <?php
                         echo $this->Form->control('email');
                         echo $this->Form->control('password');
+                        echo $this->Form->control('user_image',['type'=>'file']);
                     ?>
                 </fieldset>
                 <?= $this->Form->button(__('Submit'),['class'=>'']) ?>

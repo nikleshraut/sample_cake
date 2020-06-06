@@ -16,12 +16,18 @@
     <h3><?= h($user->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($user->email) ?></td>
+            <th scope="row"><?= __('User Image') ?></th>
+            <td>
+                <?php if($user->user_image): ?>
+                    <img width="200" class="img-fluid" src="/documents/<?= $user->user_image ?>">
+                <?php else: ?>  
+                    Image not exist  
+                <?php endif; ?>
+            </td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
+            <th scope="row"><?= __('Email') ?></th>
+            <td><?= h($user->email) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

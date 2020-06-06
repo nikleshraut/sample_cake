@@ -13,12 +13,18 @@
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user,['type'=>'file']) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
+        <?php if($user->user_image): ?>
+            <img width="200" class="img-fluid" src="/documents/<?= $user->user_image ?>">
+        <?php else: ?>  
+            Image not exist
+        <?php endif; ?>
         <?php
+            echo $this->Form->control('user_image', ['type'=>'file']);
             echo $this->Form->control('email');
-            echo $this->Form->control('password');
+            echo $this->Form->control('password', ['value'=>'']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
