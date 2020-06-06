@@ -244,8 +244,8 @@ class UsersController extends AppController
                 //dd($_SERVER["REMOTE_ADDR"]);
                 $data =  $this->request->getData();
 
-                $secret  = "6LeI8AAVAAAAAFS4zMrAZGlBtfmrUbznTvFcqTdC";
-                $reCaptcha = new ReCaptcha($secret);
+                /*$secret  = "6LeI8AAVAAAAAFS4zMrAZGlBtfmrUbznTvFcqTdC";
+                $reCaptcha = new ReCaptcha($secret);*/
                 // Was there a reCAPTCHA response?
                 if (!empty($data["g-recaptcha-response"])) {
                     /*$resp = $reCaptcha->verifyResponse(

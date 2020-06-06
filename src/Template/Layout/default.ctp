@@ -66,6 +66,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li>
                     <?php
                         echo $this->Html->link(
+                            'Register',
+                            ['controller' => 'Users', 'action' => 'add']
+                        );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                        echo $this->Html->link(
                             'Logout',
                             ['controller' => 'Users', 'action' => 'logout'],
                             ['confirm' => 'Are you sure you wish to logout ?']
@@ -91,6 +99,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                                 ['class' => 'dropdown-item']
                             );
                         ?>
+                        
                     </div>
                 </li>
             </ul>
