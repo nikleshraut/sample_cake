@@ -11,6 +11,7 @@
 <table>
     <tr>
         <th>Title</th>
+        <th>Mark As Imp(in your broswer)</th>
         <th>Created</th>
         <th>Action</th>
     </tr>
@@ -21,6 +22,20 @@
     <tr>
         <td>
             <?= $this->Html->link($article->title, ['action' => 'view', $article->slug]) ?>
+        </td>
+        <td>
+            <?php
+                if(in_array($article->slug, $read_articles)){
+                    echo '<strong class="text-success">Marked Important</strong>';
+                }else{
+                    echo '<div class="text-warning">Not Marked</div>';
+                }
+            ?>
+
+            <?= $this->Form->postLink(
+                'Toggle',
+                ['action' => 'mark', $article->slug])
+            ?>
         </td>
         <td>
             <?= $article->created->format(DATE_RFC850) ?>

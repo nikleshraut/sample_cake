@@ -2,6 +2,9 @@
 // src/Controller/ArticlesController.php
 
 namespace App\Controller;
+use Cake\Http\Cookie\Cookie;
+use Cake\Http\Client;
+
 
 class ArticlesController extends AppController
 {
@@ -14,6 +17,8 @@ class ArticlesController extends AppController
 
         $this->loadComponent('Paginator');
         $this->loadComponent('Flash');
+        $this->loadComponent('Cookie', ['httpOnly' => true]);
+
     }
 
     public function isAuthorized($user)
@@ -40,6 +45,10 @@ class ArticlesController extends AppController
     public function index()
     {
         $this->loadComponent('Paginator');
+
+        $read_articles = $this->Cookie->read('read_articles') ? $this->Cookie->read('read_articles') : [];
+        $this->set('read_articles', $read_articles);
+
         $articles = $this->Paginator->paginate($this->Articles->find());
         $this->set(compact('articles'));
     }
@@ -129,6 +138,30 @@ class ArticlesController extends AppController
             'articles' => $articles,
             'tags' => $tags
         ]);
+    }
+
+    public function mark($slug = null)
+    {
+        $read_articles = $this->Cookie->read('read_articles') ? $this->Cookie->read('read_articles') : [];
+        if($read_articles){
+            if(in_array($slug, $read_articles)){
+                $index = array_search($slug, $read_articles);
+                unset($read_articles[$index]);
+                $this->Flash->success(__('The {0} article removed from important.', $slug));
+            }else{
+                array_push($read_articles, $slug);
+                $read_articles = array_unique($read_articles);
+                $this->Flash->success(__('The {0} article marked as important.', $slug));
+            }
+        }else{
+            $read_articles = [$slug];
+        }
+        $this->Cookie->write('read_articles', $read_articles);
+        $this->loadComponent('Paginator');
+        $articles = $this->Paginator->paginate($this->Articles->find());
+        $this->set(compact('articles'));
+        $this->set('read_articles', $this->Cookie->read('read_articles'));
+        $this->render('index');        
     }
 
 }
