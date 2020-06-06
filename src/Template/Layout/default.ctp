@@ -66,6 +66,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li>
                     <?php
                         echo $this->Html->link(
+                            'Article Comments',
+                            ['controller' => 'Comments', 'action' => 'index']
+                        );
+                    ?>
+                </li>
+                <li>
+                    <?php
+                        echo $this->Html->link(
                             'Register',
                             ['controller' => 'Users', 'action' => 'add']
                         );

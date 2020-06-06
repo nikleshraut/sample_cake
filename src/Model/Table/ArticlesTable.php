@@ -17,6 +17,7 @@ class ArticlesTable extends Table
 	        'joinTable' => 'articles_tags',
 	        'dependent' => true
 	    ]);
+	    $this->hasMany('Comments');
 	}
 
     public function beforeSave($event, $entity, $options)

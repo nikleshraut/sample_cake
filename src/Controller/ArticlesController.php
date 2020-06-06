@@ -55,7 +55,14 @@ class ArticlesController extends AppController
 
     public function view($slug = null)
 	{
-        $article = $this->Articles->findBySlug($slug)->contain(['Tags'])->firstOrFail();
+        if((int)$slug){
+            $article = $this->Articles->get((int)$slug,[
+                'contain' => ['Tags','Comments']
+            ]);
+        }else{
+            $article = $this->Articles->findBySlug($slug)->contain(['Tags','Comments'])->firstOrFail();
+        }
+        $this->set('authUser', $this->Auth->user());
         $this->set(compact('article'));
 	}
 
