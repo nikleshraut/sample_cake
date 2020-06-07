@@ -182,7 +182,12 @@ class UsersController extends AppController
                         $user = $this->Auth->identify();
                         if ($user) {
                             $this->Auth->setUser($user);
-                            return $this->redirect($this->Auth->redirectUrl());
+                            $response = [
+                                'success' => true,
+                                'return_url' => $this->Auth->redirectUrl(),
+                            ];
+                            return $this->response->withType("application/json")->withStringBody(json_encode($response));
+                            //return $this->redirect($this->Auth->redirectUrl());
                         }
                     }else{
                         $this->Flash->error('Wrong Captcha Settings.');    
