@@ -3,9 +3,10 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-include_once "Captcha\ReCaptcha.php";
+include_once "Captcha/ReCaptcha.php";
 use ReCaptchaResponse;
 use ReCaptcha;
+use Cake\Validation\Validator;
 /**
  * Users Controller
  *
@@ -167,7 +168,23 @@ class UsersController extends AppController
             $this->redirect(array("controller" => "Articles", "action" => "index"));
         }else{
             if ($this->request->is('post')) {
-                //dd($_SERVER["REMOTE_ADDR"]);
+                $validator = new Validator();
+                $validator->notEmpty('email', 'We need email.')
+                ->notEmpty('g-recaptcha-response', 'Select if you not a robot.')
+                ->add('email', 'validFormat', ['rule' => 'email','message' => 'E-mail must be valid']);
+
+                $validator->notEmpty('password', 'We need password.');
+                $errors = $validator->errors($this->request->data());
+                if($errors){
+                    $response = [
+                        'success' => false,
+                        'invalid' => true,
+                        'errors' => $errors,
+                    ];
+                    return $this->response->withType("application/json")->withStringBody(json_encode($response));
+                }
+
+
                 $data =  $this->request->getData();
 
                 $secret  = "6LeI8AAVAAAAAFS4zMrAZGlBtfmrUbznTvFcqTdC";
@@ -184,11 +201,18 @@ class UsersController extends AppController
                             $this->Auth->setUser($user);
                             $response = [
                                 'success' => true,
+                                'invalid' => false,
                                 'return_url' => $this->Auth->redirectUrl(),
                             ];
-                            return $this->response->withType("application/json")->withStringBody(json_encode($response));
                             //return $this->redirect($this->Auth->redirectUrl());
+                        }else{
+                            $response = [
+                                'success' => false,
+                                'invalid' => false,
+                                'error' => 'Your username or password is incorrect.',
+                            ];
                         }
+                        return $this->response->withType("application/json")->withStringBody(json_encode($response));
                     }else{
                         $this->Flash->error('Wrong Captcha Settings.');    
                     }
